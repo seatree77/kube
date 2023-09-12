@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-deploy
+  annotations:
+    kubernetes.io/change-cause: "test annotation"
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myweb
+  template:
+    metadata:
+      labels:
+        app: myweb
+    spec:
+      containers:
+        - name: myapp-container
+          image: ghcr.io/c1t1d0s7/go-myweb:alpine
+          imagePullPolicy: IfNotPresent
+

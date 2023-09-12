@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: myweb-rs
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myweb
+  template:
+    metadata:
+      labels:
+        app: myweb
+    spec:
+      containers:
+        - name: webserver
+          image: ghcr.io/c1t1d0s7/go-myweb
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: myweb-svc
+spec:
+  selector:
+    app: myweb
+  ports:
+    - targetPort: 8080
+      port: 80
+      protocol: TCP

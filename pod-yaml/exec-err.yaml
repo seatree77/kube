@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: exec-err-pod
+spec:
+  containers:
+    - name: mynapp
+      image: c1t1d0s7/myweb
+      imagePullPolicy: IfNotPresent
+      livenessProbe:
+        exec:
+          command: 
+            - ls 
+            - /nonfile
+      ports:
+        - containerPort: 8080
+          protocol: TCP

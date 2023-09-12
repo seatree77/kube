@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mynapp-pod
+spec:
+  containers:
+    - name: mynapp
+      image: c1t1d0s7/myweb
+      livenessProbe:
+        tcpSocket:
+          port: 8888
+      ports:
+        - containerPort: 8080
+          protocol: TCP

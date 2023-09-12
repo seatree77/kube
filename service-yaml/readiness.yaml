@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-deploy
+  annotations:
+    kubernetes.io/change-cause: "readiness probe test 1"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myweb
+  template:
+    metadata:
+      labels:
+        app: myweb
+    spec:
+      containers:
+        - name: myapp-container
+          image: ghcr.io/c1t1d0s7/go-myweb:alpine
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            exec:
+              command:
+                - ls
+                - /ready
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ready-svc
+spec:
+  selector:
+    app: myweb
+  ports:
+    - port: 80
+      targetPort: 8080
